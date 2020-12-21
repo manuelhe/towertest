@@ -2,15 +2,15 @@ import { useQuery } from "react-query";
 import { Job } from '../../types/job';
 import opportunities, { QueryParams } from '../../api/opportunities';
 import JobCard from '../JobCard/JobCard';
-import { FlexboxGrid } from "rsuite";
-import { ReactElement } from "react";
+import { Button, ButtonToolbar, FlexboxGrid } from "rsuite";
+import { ReactElement, useState } from "react";
 
 const MainContainer = (): ReactElement | null => {
-  const queryParams: QueryParams = {
+  const [queryParams, setQueryParams] = useState<QueryParams>({
     aggregate: true,
     offset: 0,
-    size: 10
-  };
+    size: 5
+  });
   const queryBody = JSON.stringify({
     and: [
       {
@@ -28,13 +28,23 @@ const MainContainer = (): ReactElement | null => {
 
   const query = useQuery(['opportunities', { queryParams, queryBody }], opportunities);
 
+  const nextPage = () => {
+    const offset = queryParams.offset + queryParams.size;
+    setQueryParams({ ...queryParams, offset });
+  };
+
   return query.data ? (
-    <FlexboxGrid.Item colspan={18}>
-      <strong>Total Results</strong>: {query.data?.total}
-      {query.data.results && query.data.results.map((item: Job) => (
-        <JobCard job={item} key={item.id} />
-      ))}
-    </FlexboxGrid.Item>
+    <>
+      <FlexboxGrid.Item colspan={18}>
+        <strong>Total Results</strong>: {query.data?.total}
+        {query.data.results && query.data.results.map((item: Job) => (
+          <JobCard job={item} key={item.id} />
+        ))}
+        <ButtonToolbar>
+          <Button size="lg" appearance="ghost" onClick={nextPage}>Next Page -&gt;</Button>
+        </ButtonToolbar>
+      </FlexboxGrid.Item>
+    </>
   ) : null;
 };
 

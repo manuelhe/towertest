@@ -3,8 +3,8 @@ import constants from '../constants';
 import { Job } from '../types/job';
 
 export type QueryParams = {
-  offset?: number,
-  size?: number,
+  offset: number,
+  size: number,
   aggregate?: boolean,
   currency?: string,
   page?: number,
@@ -28,7 +28,7 @@ interface CustomQueryFunctionContext {
 }
 
 const fetchOpportunities = async ({ queryKey }: CustomQueryFunctionContext): Promise<QueryResponse> => {
-  const [key, { queryParams, queryBody }] = queryKey;
+  const [, { queryParams, queryBody }] = queryKey;
   const config = {
     method: 'POST',
     headers: { "Content-type": "application/json;charset=UTF-8" },
