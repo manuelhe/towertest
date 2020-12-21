@@ -28,10 +28,8 @@ const MainContainer = (): ReactElement | null => {
 
   const query = useQuery(['opportunities', { queryParams, queryBody }], opportunities);
 
-  console.log(query);
-
   return query.data ? (
-    <FlexboxGrid.Item colspan={12}>
+    <FlexboxGrid.Item colspan={18}>
       <strong>Total Results</strong>: {query.data?.total}
       {query.data.results && query.data.results.map((item: Job) => (
         <JobCard job={item} key={item.id} />

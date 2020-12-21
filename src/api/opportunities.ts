@@ -36,7 +36,6 @@ const fetchOpportunities = async ({ queryKey }: CustomQueryFunctionContext): Pro
   };
   const querystring = stringify(queryParams);
   const response = await fetch(`${constants.endpoints.opportunities}?${querystring}`, config);
-  console.log(response);
 
   if (!response.ok) {
     throw new Error('Network unexpected error');
