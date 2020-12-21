@@ -1,10 +1,14 @@
-async function fetchOpportunities(queryParams: {}) {
+import { stringify, StringifiableRecord } from 'query-string';
+import constants from '../constants';
+
+async function fetchOpportunities(queryParams?: StringifiableRecord, queryBody?: {}) {
   const config = {
     method: 'POST',
     headers: { "Content-type": "application/json;charset=UTF-8" },
-    body: JSON.stringify(queryParams)
+    body: JSON.stringify(queryBody)
   };
-  const { ok, json } = await fetch('/todos/', config);
+  const querystring = queryParams ? `?${stringify(queryParams)}` : '';
+  const { ok, json } = await fetch(`${constants.endpoints.opportunities}${querystring}`, config);
 
   if (!ok) {
     throw new Error('Network unexpected error');
