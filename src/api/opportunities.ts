@@ -1,5 +1,6 @@
 import { stringify } from 'query-string';
 import constants from '../constants';
+import { Job } from '../types/job';
 
 export type QueryParams = {
   offset?: number,
@@ -12,7 +13,7 @@ export type QueryParams = {
 };
 export type QueryResponse = {
   aggregators?: Record<string, any>,
-  results?: Record<string, any>[],
+  results?: Job[],
   offset?: number,
   size?: number,
   total?: number
@@ -34,13 +35,14 @@ const fetchOpportunities = async ({ queryKey }: CustomQueryFunctionContext): Pro
     body: queryBody
   };
   const querystring = stringify(queryParams);
-  const { ok, json } = await fetch(`${constants.endpoints.opportunities}?${querystring}`, config);
+  const response = await fetch(`${constants.endpoints.opportunities}?${querystring}`, config);
+  console.log(response);
 
-  if (!ok) {
+  if (!response.ok) {
     throw new Error('Network unexpected error');
   }
 
-  return json();
+  return response.json();
 }
 
 export default fetchOpportunities;
