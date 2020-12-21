@@ -2,8 +2,10 @@ import { useQuery } from "react-query";
 import { Job } from '../../types/job';
 import opportunities, { QueryParams } from '../../api/opportunities';
 import JobCard from '../JobCard/JobCard';
+import { FlexboxGrid } from "rsuite";
+import { ReactElement } from "react";
 
-const MainContainer = () => {
+const MainContainer = (): ReactElement | null => {
   const queryParams: QueryParams = {
     aggregate: true,
     offset: 0,
@@ -28,18 +30,14 @@ const MainContainer = () => {
 
   console.log(query);
 
-  return (
-    <>
-      {query.data && (
-        <>
-          <strong>Total Results</strong>: {query.data?.total}
-          {query.data.results && query.data.results.map((item: Job) => (
-            <JobCard job={item} key={item.id} />
-          ))}
-        </>
-      )}
-    </>
-  );
+  return query.data ? (
+    <FlexboxGrid.Item colspan={12}>
+      <strong>Total Results</strong>: {query.data?.total}
+      {query.data.results && query.data.results.map((item: Job) => (
+        <JobCard job={item} key={item.id} />
+      ))}
+    </FlexboxGrid.Item>
+  ) : null;
 };
 
 export default MainContainer;

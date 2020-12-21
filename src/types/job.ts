@@ -2,8 +2,8 @@ export type Compensation = {
   data: {
     code: string;
     currency: string;
-    minAmmount?: number;
-    maxAmmount?: number;
+    minAmount?: number;
+    maxAmount?: number;
     periodicity?: string;
   };
   visible: boolean;
